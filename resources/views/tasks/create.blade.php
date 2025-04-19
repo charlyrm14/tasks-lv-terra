@@ -18,7 +18,9 @@
             <div class="border-1 border-gray-300 shadow-lg px-10 py-5 rounded">
                 <h2 class="uppercase text-indigo-600 text-xl"> Ingresa los siguientes datos </h2>
                 <p class="text-gray-500 mb-5"> Crea una nueva tarea</p>
-                <form>
+                <form action="{{ route('tasks.store') }}" method="POST">
+                    @csrf
+
                     <div>
                         <label for="name" class="uppercase mb-3"> Nombre </label>
                         <input 
@@ -26,33 +28,60 @@
                             id="name" 
                             name="name" 
                             placeholder="Ej; ecommerce, sitio web"
-                            class="w-full my-3 border-1 border-gray-300 px-5 py-3 rounded"/>
+                            class="w-full my-3 border-1 border-gray-300 px-5 py-3 rounded"
+                            value="{{ old('name') }}"/>
+                        @error('name')
+                        <p class="pl-1 text-red-500 text-sm"> {{ $message }} </p>
+                        @enderror
                     </div>
 
-                    <div class="mt-3">
+                    <div class="mt-4">
                         <label for="status" class="uppercase mb-3"> Estatus </label>
                         <div class="flex space-x-4 mt-3">
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="status" value="1" class="accent-indigo-500">
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="pendiente" 
+                                    class="accent-indigo-500"
+                                    {{ old('status') === 'pendiente' ? 'checked' : '' }}>
                                 <span class="uppercase"> Pendiente </span>
                             </label>
 
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="status" value="2" class="accent-indigo-500">
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="en_espera" 
+                                    class="accent-indigo-500"
+                                    {{ old('status') === 'en_espera' ? 'checked' : '' }}>
                                 <span class="uppercase"> En espera </span>
                             </label>
 
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="status" value="3" class="accent-indigo-500">
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="en_revision" 
+                                    class="accent-indigo-500"
+                                    {{ old('status') === 'en_revision' ? 'checked' : '' }}>
                                 <span class="uppercase"> En revisión </span>
                             </label>
 
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="status" value="3" class="accent-indigo-500">
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="completada" 
+                                    class="accent-indigo-500"
+                                    {{ old('status') === 'completada' ? 'checked' : '' }}>
                                 <span class="uppercase"> Completado </span>
                             </label>
 
                         </div>
+                        @error('status')
+                        <p class="mt-2 pl-1 text-red-500 text-sm"> {{ $message }} </p>
+                        @enderror
                     </div>
 
                     <div class="mt-6">
@@ -61,16 +90,20 @@
                             type="text"
                             id="description" 
                             name="description" 
-                            class="w-full my-3 border-1 border-gray-300 px-5 py-3 rounded"></textarea>
+                            class="w-full mt-3 border-1 border-gray-300 px-5 py-3 rounded">{{ old('description') }}</textarea>
+                        @error('description')
+                        <p class="mt-1 pl-1 text-red-500 text-sm"> {{ $message }} </p>
+                        @enderror
                     </div>
 
-                    <div class="flex justify-between items-center mt-3">
+                    <div class="flex justify-between items-center mt-10">
                         <a
                             href="{{ route('home') }}"
                             class="uppercase border border-red-500 text-red-500 py-2 px-3 rounded-lg cursor-pointer hover:bg-red-500 hover:text-white">
                             Cancelar
                         </a>
                         <button
+                            type="submit"
                             class="uppercase bg-black text-white py-2 px-5 rounded-lg cursor-pointer flex items-center gap-2 hover:opacity-75">
                                 Crear tarea
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">

@@ -18,6 +18,7 @@ Route::get('/', [TaskController::class, 'index'])->name('home');
 
 Route::prefix('tasks')->controller(TaskController::class)->group(function() {
     Route::get('/create', 'create')->name('tasks.create');
+    Route::post('/store', 'store')->name('tasks.store');
     Route::get('/edit/{task}', 'edit')->name('tasks.edit');
 });
 

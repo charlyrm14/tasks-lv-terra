@@ -14,6 +14,17 @@
                     </svg> Agregar tarea
             </a>
         </div>
+
+        @session('success')
+        <div class="bg-green-100 w-full my-10 rounded">
+            <p class="text-green-500 px-5 py-2 uppercase text-lg flex items-center gap-2"> 
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg> {{ $value }}
+            </p>
+        </div>
+        @endsession
+
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-10 gap-x-3">
             <div class="border border-gray-300 rounded shadow-md px-2 h-150 overflow-y-auto mt-5 md:mt-0 lg:mt-0">
                 <div class="px-2 my-2 border-b-1 border-gray-300">

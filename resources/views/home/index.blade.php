@@ -15,18 +15,29 @@
             </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-10 gap-x-3">
-            <div class="border border-gray-300 rounded shadow-md divide-y-1 divide-gray-300 px-2">
-                <div class="px-2 my-2">
+            <div class="border border-gray-300 rounded shadow-md px-2 h-150 overflow-y-auto mt-5 md:mt-0 lg:mt-0">
+                <div class="px-2 my-2 border-b-1 border-gray-300">
                     <p class="uppercase text-start text-lg"> Pendientes </p>
                 </div>
+                @if($tasks->where('status', 'pendiente')->count() > 0)
+                <div class="flex justify-end">
+                    <span class="flex items-center gap-1 text-gray-500">
+                        Desplaza 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                            </svg>
+                    </span>    
+                </div>
+                @endif
+                @forelse($tasks->where('status', 'pendiente') as $task)
                 <div class="px-1 mt-6 border-1 border-gray-300 rounded mb-5 cursor-pointer">
                     <div class="flex w-full items-center">
                         <div class="w-1/5 p-2">
                             <div class="bg-gray-200 p-4 rounded border-2 border-gray-300"></div>
                         </div>
                         <div class="w-4/5 p-2">
-                            <p class="text-normal text-indigo-500"> Ecommerce </p>
-                            <p class="text-sm"> Una breve descripción </p>
+                            <p class="text-normal text-indigo-500 uppercase"> {{ $task->name }} </p>
+                            <p class="text-sm"> {{ Str::limit($task->description, 30) }} </p>
                         </div>
                     </div>
                     <div class="my-2 border-t-1 border-gray-300">
@@ -37,26 +48,42 @@
                                 </svg>
                             </button>
                             <a 
-                                href="{{ route('tasks.edit', 1) }}"
+                                href="{{ route('tasks.edit', $task) }}"
                                 class="uppercase bg-blue-600 px-3 rounded cursor-pointer text-white hover:opacity-75">
                                     Editar
                             </a>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div>
+                    <p class="text-center text-gray-400 mt-3 mb-5"> No hay tareas pendientes </p>
+                </div>
+                @endforelse
             </div>
-            <div class="border border-violet-400 rounded shadow-md divide-y-1 divide-gray-300 px-2">
-                <div class="px-2 my-2">
+            <div class="border border-gray-300 rounded shadow-md px-2 h-150 overflow-y-auto mt-5 md:mt-0 lg:mt-0">
+                <div class="px-2 my-2 border-b-1 border-gray-300">
                     <p class="uppercase text-start text-lg"> En Espera </p>
                 </div>
-                <div class="px-1 mt-6 border-1 border-gray-300 rounded mb-5 cursor-pointer">
+                @if($tasks->where('status', 'en_espera')->count() > 0)
+                <div class="flex justify-end">
+                    <span class="flex items-center gap-1 text-gray-500">
+                        Desplaza 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                            </svg>
+                    </span>    
+                </div>
+                @endif
+                @forelse($tasks->where('status', 'en_espera') as $task)
+                <div class="px-1 mt-6 border-1 border-violet-400 rounded mb-5 cursor-pointer">
                     <div class="flex w-full items-center">
                         <div class="w-1/5 p-2">
-                            <div class="bg-gray-200 p-4 rounded border-2 border-gray-300"></div>
+                            <div class="bg-violet-200 p-4 rounded border-2 border-violet-300"></div>
                         </div>
                         <div class="w-4/5 p-2">
-                            <p class="text-normal text-indigo-500"> Ecommerce </p>
-                            <p class="text-sm"> Una breve descripción </p>
+                            <p class="text-normal text-indigo-500 uppercase"> {{ $task->name }} </p>
+                            <p class="text-sm"> {{ Str::limit($task->description, 30) }} </p>
                         </div>
                     </div>
                     <div class="my-2 border-t-1 border-gray-300">
@@ -67,26 +94,42 @@
                                 </svg>
                             </button>
                             <a 
-                                href="{{ route('tasks.edit', 2) }}"
+                                href="{{ route('tasks.edit', $task) }}"
                                 class="uppercase bg-blue-600 px-3 rounded cursor-pointer text-white hover:opacity-75">
                                     Editar
                             </a>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div>
+                    <p class="text-center text-gray-400 mt-3 mb-5"> No hay tareas en espera </p>
+                </div>
+                @endforelse
             </div>
-            <div class="border border-blue-400 rounded shadow-md divide-y-1 divide-gray-300 px-2">
-                <div class="px-2 my-2">
+            <div class="border border-gray-300 rounded shadow-md px-2 h-150 overflow-y-auto mt-5 md:mt-0 lg:mt-0">
+                <div class="px-2 my-2 border-b-1 border-gray-300">
                     <p class="uppercase text-start text-lg"> En revisión </p>
                 </div>
-                <div class="px-1 mt-6 border-1 border-gray-300 rounded mb-5 cursor-pointer">
+                @if($tasks->where('status', 'en_revision')->count() > 0)
+                <div class="flex justify-end">
+                    <span class="flex items-center gap-1 text-gray-500">
+                        Desplaza 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                            </svg>
+                    </span>    
+                </div>
+                @endif
+                @forelse($tasks->where('status', 'en_revision') as $task)
+                <div class="px-1 mt-6 border-1 border-blue-400 rounded mb-5 cursor-pointer">
                     <div class="flex w-full items-center">
                         <div class="w-1/5 p-2">
-                            <div class="bg-gray-200 p-4 rounded border-2 border-gray-300"></div>
+                            <div class="bg-blue-200 p-4 rounded border-2 border-blue-300"></div>
                         </div>
                         <div class="w-4/5 p-2">
-                            <p class="text-normal text-indigo-500"> Ecommerce </p>
-                            <p class="text-sm"> Una breve descripción </p>
+                            <p class="text-normal text-indigo-500 uppercase"> {{ $task->name }} </p>
+                            <p class="text-sm"> {{ Str::limit($task->description, 30) }} </p>
                         </div>
                     </div>
                     <div class="my-2 border-t-1 border-gray-300">
@@ -97,26 +140,42 @@
                                 </svg>
                             </button>
                             <a 
-                                href="{{ route('tasks.edit', 3) }}"
+                                href="{{ route('tasks.edit', $task) }}"
                                 class="uppercase bg-blue-600 px-3 rounded cursor-pointer text-white hover:opacity-75">
                                     Editar
                             </a>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div>
+                    <p class="text-center text-gray-400 mt-3 mb-5"> No hay tareas en revisión </p>
+                </div>
+                @endforelse
             </div>
-            <div class="border border-green-400 rounded shadow-md divide-y-1 divide-gray-300 px-2">
-                <div class="px-2 my-2">
+            <div class="border border-gray-300 rounded shadow-md px-2 h-150 overflow-y-auto mt-5 md:mt-5 lg:mt-0">
+                <div class="px-2 my-2 border-b-1 border-gray-300">
                     <p class="uppercase text-start text-lg"> Completadas </p>
                 </div>
-                <div class="px-1 mt-6 border-1 border-gray-300 rounded mb-5 cursor-pointer">
+                @if($tasks->where('status', 'completada')->count() > 0)
+                <div class="flex justify-end">
+                    <span class="flex items-center gap-1 text-gray-500">
+                        Desplaza 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                            </svg>
+                    </span>    
+                </div>
+                @endif
+                @forelse($tasks->where('status', 'completada') as $task)
+                <div class="px-1 mt-6 border-1 border-green-400 rounded mb-5 cursor-pointer">
                     <div class="flex w-full items-center">
                         <div class="w-1/5 p-2">
-                            <div class="bg-gray-200 p-4 rounded border-2 border-gray-300"></div>
+                            <div class="bg-green-200 p-4 rounded border-2 border-green-300"></div>
                         </div>
                         <div class="w-4/5 p-2">
-                            <p class="text-normal text-indigo-500"> Ecommerce </p>
-                            <p class="text-sm"> Una breve descripción </p>
+                            <p class="text-normal text-indigo-500 uppercase"> {{ $task->name }} </p>
+                            <p class="text-sm"> {{ Str::limit($task->description, 30) }} </p>
                         </div>
                     </div>
                     <div class="my-2 border-t-1 border-gray-300">
@@ -127,13 +186,18 @@
                                 </svg>
                             </button>
                             <a 
-                                href="{{ route('tasks.edit', 4) }}"
+                                href="{{ route('tasks.edit', $task) }}"
                                 class="uppercase bg-blue-600 px-3 rounded cursor-pointer text-white hover:opacity-75">
                                     Editar
                             </a>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div>
+                    <p class="text-center text-gray-400 mt-3 mb-5"> No hay tareas completadas </p>
+                </div>
+                @endforelse
             </div>
         </div>
     </section>

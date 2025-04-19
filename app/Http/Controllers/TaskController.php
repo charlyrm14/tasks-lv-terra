@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::getAllTasks();
+        
+        return view('home/index', [
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -44,6 +49,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        dd($task->name);
         return view('tasks/edit');
     }
 

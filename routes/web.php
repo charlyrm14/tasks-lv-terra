@@ -14,12 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home/index');
-})->name('home');
+Route::get('/', [TaskController::class, 'index'])->name('home');
 
 Route::prefix('tasks')->controller(TaskController::class)->group(function() {
     Route::get('/create', 'create')->name('tasks.create');
-    Route::get('/edit/{id}', 'edit')->name('tasks.edit');
+    Route::get('/edit/{task}', 'edit')->name('tasks.edit');
 });
 

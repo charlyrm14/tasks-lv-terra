@@ -34,6 +34,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
+        Task::create($request->validated());
+
+        return redirect()->route('home')->with('success', 'Tarea creada con éxito');
     }
 
     /**
@@ -49,7 +52,6 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        dd($task->name);
         return view('tasks/edit');
     }
 
